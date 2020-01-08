@@ -100,6 +100,10 @@ WARNING
       post_bundler
       create_database_yml
       install_binaries
+
+      install_bower
+      install_bower_defined_dependencies
+
       run_assets_precompile_rake_task
     end
     config_detect
@@ -169,6 +173,21 @@ WARNING
   end
 
   def config_detect
+  end
+
+  def install_bower
+    topic 'Installing bower'
+    pipe('npm install -g bower@1.8.8')
+    unless $?.success?
+      error "Can't install Bower 1.8.8"
+    end
+  end
+
+  def install_bower_defined_dependencies
+    topic 'Installing dependencies via bower'
+    pipe('bundle exec bowndler bower_configure')
+    pipe('.heroku/node/bin/bower install --config.storage.packages=vendor/bower/packages --config.storage.registry=vendor/bower/registry --config.tmp=vendor/bower/tmp 2>&1')
+    FileUtils.rm_rf("vendor/bower/tmp")
   end
 
 private

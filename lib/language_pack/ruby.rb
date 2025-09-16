@@ -129,7 +129,7 @@ WARNING
   def install_bower_defined_dependencies
     topic 'Installing dependencies via bower'
     pipe('bundle exec bowndler bower_configure')
-    pipe('.heroku/node/bin/bower install --config.storage.packages=vendor/bower/packages --config.storage.registry=vendor/bower/registry --config.tmp=vendor/bower/tmp 2>&1')
+    pipe('.heroku/node/bin/bower install --force --config.storage.packages=vendor/bower/packages --config.storage.registry=vendor/bower/registry --config.tmp=vendor/bower/tmp 2>&1')
     FileUtils.rm_rf("vendor/bower/tmp")
   end
 
